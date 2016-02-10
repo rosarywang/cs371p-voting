@@ -1,11 +1,11 @@
 // --------------------------
-// projects/collatz/Collatz.h
+// projects/Voting/Voting.h
 // Copyright (C) 2016
 // Glenn P. Downing
 // --------------------------
 
-#ifndef Collatz_h
-#define Collatz_h
+#ifndef Voting_h
+#define Voting_h
 
 // --------
 // includes
@@ -60,6 +60,6 @@ void collatz_print (ostream& w, int i, int j, int v);
  * @param r an istream
  * @param w an ostream
  */
-void collatz_solve (istream& r, ostream& w);
+void voting_solve (istream& r, ostream& w);
 
 #endif // Collatz_h

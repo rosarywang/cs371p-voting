@@ -10,7 +10,7 @@
 
 #include <iostream> // cin, cout
 
-#include "Collatz.h"
+#include "Voting.h"
 
 // ----
 // main
@@ -18,7 +18,7 @@
 
 int main () {
     using namespace std;
-    collatz_solve(cin, cout);
+    voting_solve(cin, cout);
     return 0;}
 
 /*

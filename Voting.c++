@@ -14,7 +14,7 @@
 #include <string>   // getline, string
 #include <utility>  // make_pair, pair
 
-#include "Collatz.h"
+// #include "Collatz.h"
 
 using namespace std;
 
@@ -22,37 +22,67 @@ using namespace std;
 // collatz_read
 // ------------
 
-pair<int, int> collatz_read (const string& s) {
-    istringstream sin(s);
-    int i;
-    int j;
-    sin >> i >> j;
-    return make_pair(i, j);}
+// pair<int, int> collatz_read (const string& s) {
+//     istringstream sin(s);
+//     int i;
+//     int j;
+//     sin >> i >> j;
+//     return make_pair(i, j);}
 
-// ------------
-// collatz_eval
-// ------------
+// // ------------
+// // collatz_eval
+// // ------------
 
-int collatz_eval (int i, int j) {
-    // <your code>
-    return 1;}
+// int collatz_eval (int i, int j) {
+//     // <your code>
+//     return 1;}
+
+// // -------------
+// // collatz_print
+// // -------------
+
+// void collatz_print (ostream& w, int i, int j, int v) {
+//     w << i << " " << j << " " << v << endl;}
 
 // -------------
-// collatz_print
+// voting_solve
 // -------------
 
-void collatz_print (ostream& w, int i, int j, int v) {
-    w << i << " " << j << " " << v << endl;}
-
-// -------------
-// collatz_solve
-// -------------
-
-void collatz_solve (istream& r, ostream& w) {
+void voting_solve (istream& r, ostream& w) {
     string s;
-    while (getline(r, s)) {
-        const pair<int, int> p = collatz_read(s);
-        const int            i = p.first;
-        const int            j = p.second;
-        const int            v = collatz_eval(i, j);
-        collatz_print(w, i, j, v);}}
+    //voting_sample_size
+    //read the first line, where the number of samples in the test
+    int size;
+    getline(r, s);
+    istringstream sin(s);
+    sin >> size;
+    
+    //get the number of candidate in each sample
+    getline(r,s);
+    //getline(r,s);
+    while (getline(r, s) && !r.eof()) {
+        int candidate;
+        istringstream sin2(s);
+        sin2 >> candidate;
+        w <<candidate <<endl;
+        string name[20];
+        for (int i = 0; i < candidate; ++i)
+        {
+            getline(r,s);
+            name[i] = s;
+            w << name[i] << endl;
+        }
+        string ballot[1000];
+        int i = 0;
+        while(!s.empty() && !r.eof()){
+            getline(r,s);
+            if(!s.empty()) {
+                ballot[i] = s;
+                w << ballot[i] << endl;
+                ++i;
+            }
+            
+        }
+        // collatz_print(w, i, j, v);
+    }
+}

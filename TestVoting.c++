@@ -1,11 +1,3 @@
-// --------------------------------
-// projects/voting/TestVoting.c++
-// Copyright (C) 2016
-// Glenn P. Downing
-// --------------------------------
-
-// https://code.google.com/p/googletest/wiki/V1_7_Primer#Basic_Assertions
-
 // --------
 // includes
 // --------
@@ -29,50 +21,50 @@ using namespace std;
 // read
 // ----
 
-TEST(VotingFixture, read) {
-    string s("1 10\n");
-    const pair<int, int> p = voting_read(s);
-    ASSERT_EQ( 1, p.first);
-    ASSERT_EQ(10, p.second);}
+// TEST(VotingFixture, read) {
+//     string s("1 10\n");
+//     const pair<int, int> p = voting_read(s);
+//     ASSERT_EQ( 1, p.first);
+//     ASSERT_EQ(10, p.second);}
 
 // ----
 // eval
 // ----
 
-TEST(VotingFixture, eval_1) {
-    const int v = voting_eval(1, 10);
-    ASSERT_EQ(1, v);}
+// TEST(VotingFixture, eval_1) {
+//     const int v = voting_eval(1, 10);
+//     ASSERT_EQ(1, v);}
 
-TEST(VotingFixture, eval_2) {
-    const int v = voting_eval(100, 200);
-    ASSERT_EQ(1, v);}
+// TEST(VotingFixture, eval_2) {
+//     const int v = voting_eval(100, 200);
+//     ASSERT_EQ(1, v);}
 
-TEST(VotingFixture, eval_3) {
-    const int v = voting_eval(201, 210);
-    ASSERT_EQ(1, v);}
+// TEST(VotingFixture, eval_3) {
+//     const int v = voting_eval(201, 210);
+//     ASSERT_EQ(1, v);}
 
-TEST(VotingFixture, eval_4) {
-    const int v = voting_eval(900, 1000);
-    ASSERT_EQ(1, v);}
+// TEST(VotingFixture, eval_4) {
+//     const int v = voting_eval(900, 1000);
+//     ASSERT_EQ(1, v);}
 
 // -----
 // print
 // -----
 
-TEST(VotingFixture, print) {
-    ostringstream w;
-    voting_print(w, 1, 10, 20);
-    ASSERT_EQ("1 10 20\n", w.str());}
+// TEST(VotingFixture, print) {
+//     ostringstream w;
+//     voting_print(w, 1, 10, 20);
+//     ASSERT_EQ("1 10 20\n", w.str());}
 
 // -----
 // solve
 // -----
 
 TEST(VotingFixture, solve) {
-    istringstream r("1 10\n100 200\n201 210\n900 1000\n");
+    istringstream r("1\n\n3\nJohn Doe\nJane Smith\nSirhan Sirhan\n1 2 3\n2 1 3\n2 3 1\n1 2 3\n3 1 2");
     ostringstream w;
     voting_solve(r, w);
-    ASSERT_EQ("1 10 1\n100 200 1\n201 210 1\n900 1000 1\n", w.str());}
+    ASSERT_EQ("John Doe", w.str());}
 
 /*
 % g++ -fprofile-arcs -ftest-coverage -pedantic -std=c++11 -Wall Voting.c++ TestVoting.c++ -o TestVoting -lgtest -lgtest_main -lpthread

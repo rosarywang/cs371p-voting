@@ -26,7 +26,7 @@ using namespace std;
  * @param s a string
  * @return a pair of ints, representing the beginning and end of a range, [i, j]
  */
-pair<int, int> collatz_read (const string& s);
+//pair<int, int> collatz_read (const string& s);
 
 // ------------
 // collatz_eval
@@ -37,7 +37,7 @@ pair<int, int> collatz_read (const string& s);
  * @param j the end       of the range, inclusive
  * @return the max cycle length of the range [i, j]
  */
-int collatz_eval (int i, int j);
+//int collatz_eval (int i, int j);
 
 // -------------
 // collatz_print
@@ -50,7 +50,7 @@ int collatz_eval (int i, int j);
  * @param j the end       of the range, inclusive
  * @param v the max cycle length
  */
-void collatz_print (ostream& w, int i, int j, int v);
+//void collatz_print (ostream& w, int i, int j, int v);
 
 // -------------
 // collatz_solve

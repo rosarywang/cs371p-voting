@@ -29,8 +29,6 @@ int voting_candidate(const string& s){
     return num_of_candidate;
 }
 
-
-
 // ------------
 // collatz_read
 // ------------

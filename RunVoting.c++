@@ -22,27 +22,31 @@ int main () {
     return 0;}
 
 /*
-% g++ -pedantic -std=c++11 -Wall Collatz.c++ RunCollatz.c++ -o RunCollatz
+% g++ -pedantic -std=c++11 -Wall Voting.c++ RunVoting.c++ -o RunVoting
 
 
 
-% cat RunCollatz.in
-1 10
-100 200
-201 210
-900 1000
+% cat RunVoting.in
+1
+
+3
+John Doe
+Jane Smith
+Sirhan Sirhan
+1 2 3
+2 1 3
+2 3 1
+1 2 3
+3 1 2
 
 
 
-% RunCollatz < RunCollatz.in > RunCollatz.out
+% RunVoting < RunVoting.in > RunVoting.out
 
 
 
-% cat RunCollatz.out
-1 10 1
-100 200 1
-201 210 1
-900 1000 1
+% cat RunVoting.out
+John Doe
 
 
 

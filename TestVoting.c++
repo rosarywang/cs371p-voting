@@ -60,11 +60,11 @@ using namespace std;
 // solve
 // -----
 
-TEST(VotingFixture, solve) {
-    istringstream r("1\n\n3\nJohn Doe\nJane Smith\nSirhan Sirhan\n1 2 3\n2 1 3\n2 3 1\n1 2 3\n3 1 2");
-    ostringstream w;
-    voting_solve(r, w);
-    ASSERT_EQ("John Doe", w.str());}
+// TEST(VotingFixture, solve) {
+//     istringstream r("1\n\n3\nJohn Doe\nJane Smith\nSirhan Sirhan\n1 2 3\n2 1 3\n2 3 1\n1 2 3\n3 1 2");
+//     ostringstream w;
+//     voting_solve(r, w);
+//     ASSERT_EQ("John Doe", w.str());}
 
 /*
 % g++ -fprofile-arcs -ftest-coverage -pedantic -std=c++11 -Wall Voting.c++ TestVoting.c++ -o TestVoting -lgtest -lgtest_main -lpthread

@@ -18,6 +18,8 @@
 
 using namespace std;
 
+//array<list<int>, 20> candidate_ballot;
+
 // ----------------
 // voting_candidate
 // ----------------
@@ -28,6 +30,27 @@ int voting_candidate(const string& s){
     sin >> num_of_candidate;
     return num_of_candidate;
 }
+
+// -------------------
+// voting_parse_ballot
+// -------------------
+
+void voting_parse_ballot(const string& s, int candidate_ballot[1000][20],int i){
+
+    istringstream stream(s);
+
+    int j = 0;
+
+    while(1){
+        int n;
+        stream >> n;
+        if(!stream)
+            break;
+        candidate_ballot[i][j] = n;
+        ++j;
+    }
+}
+
 
 // ------------
 // collatz_read
@@ -73,28 +96,99 @@ void voting_solve (istream& r, ostream& w) {
     //getline(r,s);
     while (getline(r, s) && !r.eof()) {
         int num_of_candidate = voting_candidate(s);
-        string name[20];
+        assert(num_of_candidate <= 20);
+        int candidate_total_votes[20]= {0};
+        string candidate_names[20] = { "" };
+        bool candidate_loser[20] = { false };
+        int candidate_ballot[1000][20] ={0};
+        int ballot;
         for (int i = 0; i < num_of_candidate; ++i)
         {
             getline(r,s);
             /*function*/
-            name[i] = s;
-            w << name[i] << endl;
+            candidate_names[i] = s;
+            //w << candidate_names[i] << endl;
         }
-        string ballot[1000];
         int i = 0;
         while(!s.empty() && !r.eof()){
             getline(r,s);
             if(!s.empty()) {
                 /*function*/
-                ballot[i] = s;
-                w << ballot[i] << endl;
+                voting_parse_ballot(s, candidate_ballot,i);
+                // w << candidate_ballot[i] << endl;
                 ++i;
             }
             
         }
+        ballot = i;
+        // for(int k = 0; k <i; ++k)
+        //     for(int m = 0; m < num_of_candidate; ++m)
+        //         w << candidate_ballot[k][m] << endl;
         //eval_loser loser boolean
         //eval_tie break tie 
         // collatz_print(w, i, j, v);
+        for(int i =0; i<ballot; ++i){
+        int first_vote = candidate_ballot[i][0]-1;
+        ++candidate_total_votes[first_vote];
+        }
+        bool tie = false;
+        int max = -1;
+        int winner;
+        for(int i =0; i < num_of_candidate; ++i){
+            if(max < candidate_total_votes[i])
+            {
+                max = candidate_total_votes[i];
+                winner = i;
+            }
+                
+        }
+        for(int i =0; i < num_of_candidate; ++i){
+            if(max > candidate_total_votes[i])
+                candidate_loser[i]= true;
+            else if(max == candidate_total_votes[i])
+                tie = true;
+        }
+        if(!tie)
+            w << candidate_names[winner] << endl;
+        else{
+            for(int i = 0; i < ballot; ++i){
+                int c = candidate_ballot[i][0]-1;
+                if(candidate_loser[c]){
+                    int j = 1;
+                    c = candidate_ballot[i][j]-1;
+                    while(candidate_loser[c]){
+                        ++j;
+                        c = candidate_ballot[i][j]-1;
+                    }
+                    ++candidate_total_votes[c];
+                }
+            }
+                
+        }
+        for(int i =0; i < num_of_candidate; ++i){
+            if(max < candidate_total_votes[i])
+            {
+                max = candidate_total_votes[i];
+                winner = i;
+            }
+                
+        }
+        for(int i =0; i < num_of_candidate; ++i){
+            if(max > candidate_total_votes[i])
+                candidate_loser[i]= true;
+            else if(max == candidate_total_votes[i])
+                tie = true;
+        }
+        if(!tie)
+            w << candidate_names[winner] << endl;
+        else{
+            for(int i =0; i < num_of_candidate; ++i){
+                if(max == candidate_total_votes[i])
+                    w << candidate_names[i] << endl;
+            }
+        }
+        w << endl;
     }
+
+        
 }

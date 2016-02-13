@@ -1,0 +1,65 @@
+commit 0d6dda3a35adc590bfac4d1be73cad0ce910f205
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Sat Feb 13 01:33:30 2016 -0600
+
+    fix problem on UVa, misunderstood the question, closes #2, closes #12
+
+commit 29c0dc3cc3eccf86c4512dd4e19c227e96402215
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Fri Feb 12 23:01:52 2016 -0600
+
+    still debugging
+
+commit 78855802524735e147824d259a9f8cce321b113f
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Fri Feb 12 22:47:18 2016 -0600
+
+    most simple solution
+
+commit 8d2aa58103bef4f5874905feeb869f9af328130e
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Fri Feb 12 21:05:28 2016 -0600
+
+    debug num_of_candidate
+
+commit 74bf1c250e61012d30267a0a03a78041a24296af
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Fri Feb 12 20:53:45 2016 -0600
+
+    update makefile
+
+commit 67369ca4cbcb1999325fc5f0acb4144112bcdc76
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Tue Feb 9 21:31:40 2016 -0600
+
+    change Collatz to Voting
+
+commit 620f5bd0ce559065c1fb233ca744fd3bdecf8712
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Tue Feb 9 21:20:09 2016 -0600
+
+    2/9 end of pair programming
+
+commit 9fff3192eaffeeb76e3b5b887301c0d8da57cbe5
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Tue Feb 9 20:06:43 2016 -0600
+
+    initial input parsing
+
+commit 45ee8892f1c5bff47c8dcc7a951473e08d5abdef
+Author: tumrod <tipparat.umrod@utexas.edu>
+Date:   Tue Feb 9 18:36:11 2016 -0600
+
+    Voting files
+
+commit 762d438f2c146f156826af77b69c8528e6195acc
+Author: tipparat umrod <tipparat.umrod@utexas.edu>
+Date:   Tue Feb 9 18:15:18 2016 -0600
+
+    inital files
+
+commit dd187bcfdba0a7cbcc8260dc471415401b7405d1
+Author: rosarywang <rosarywang@users.noreply.github.com>
+Date:   Mon Feb 8 16:03:27 2016 -0600
+
+    Initial commit

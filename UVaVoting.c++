@@ -1,0 +1,196 @@
+// ----------------------------
+// projects/collatz/Collatz.c++
+// Copyright (C) 2016
+// Glenn P. Downing
+// ----------------------------
+
+// --------
+// includes
+// --------
+
+#include <cassert>  // assert
+#include <iostream> // endl, istream, ostream
+#include <sstream>  // istringstream
+#include <string>   // getline, string
+#include <utility>  // make_pair, pair
+
+// #include "Collatz.h"
+
+using namespace std;
+
+//array<list<int>, 20> candidate_ballot;
+
+// ----------------
+// voting_candidate
+// ----------------
+
+int voting_candidate(const string& s){
+    int num_of_candidate;
+    istringstream sin(s);
+    sin >> num_of_candidate;
+    return num_of_candidate;
+}
+
+// -------------------
+// voting_parse_ballot
+// -------------------
+
+void voting_parse_ballot(const string& s, int candidate_ballot[1000][20],int i){
+
+    stringstream stream(s);
+
+    int j = 0;
+
+    while(1){
+        int n;
+        stream >> n;
+        if(!stream)
+            break;
+        candidate_ballot[i][j] = n;
+        ++j;
+    }
+}
+
+
+// ------------
+// collatz_read
+// ------------
+
+// pair<int, int> collatz_read (const string& s) {
+//     istringstream sin(s);
+//     int i;
+//     int j;
+//     sin >> i >> j;
+//     return make_pair(i, j);}
+
+// // ------------
+// // collatz_eval
+// // ------------
+
+// int collatz_eval (int i, int j) {
+//     // <your code>
+//     return 1;}
+
+// // -------------
+// // collatz_print
+// // -------------
+
+// void collatz_print (ostream& w, int i, int j, int v) {
+//     w << i << " " << j << " " << v << endl;}
+
+// -------------
+// voting_solve
+// -------------
+
+void voting_solve (istream& r, ostream& w) {
+    string s;
+    //voting_sample_size
+    //read the first line, where the number of samples in the test
+    int size;
+    getline(r, s);
+    istringstream sin1(s);
+    sin1 >> size;
+    
+    //get the number of candidate in each sample
+    getline(r,s);
+    //getline(r,s);
+    while (getline(r, s) && !r.eof()) {
+        int num_of_candidate = voting_candidate(s);
+        int candidate_total_votes[20]= {0};
+        string candidate_names[20] = { "" };
+        bool candidate_loser[20] = { false };
+        int candidate_ballot[1000][20] ={0};
+        int ballot;
+        for (int i = 0; i < num_of_candidate; ++i)
+        {
+            getline(r,s);
+            /*function*/
+            candidate_names[i] = s;
+            //w << candidate_names[i] << endl;
+        }
+        int i = 0;
+        while(!s.empty() && !r.eof()){
+            getline(r,s);
+            if(!s.empty()) {
+                /*function*/
+                voting_parse_ballot(s, candidate_ballot,i);
+                // w << candidate_ballot[i] << endl;
+                ++i;
+            }
+            
+        }
+        ballot = i;
+        // for(int k = 0; k <i; ++k)
+        //     for(int m = 0; m < num_of_candidate; ++m)
+        //         w << candidate_ballot[k][m] << endl;
+        //eval_loser loser boolean
+        //eval_tie break tie 
+        // collatz_print(w, i, j, v);
+        for(int i =0; i<ballot; ++i){
+        int first_vote = candidate_ballot[i][0]-1;
+        ++candidate_total_votes[first_vote];
+        }
+        bool tie = false;
+        int max = -1;
+        int winner;
+        for(int i =0; i < num_of_candidate; ++i){
+            if(max < candidate_total_votes[i])
+            {
+                max = candidate_total_votes[i];
+                winner = i;
+            }
+                
+        }
+        for(int i =0; i < num_of_candidate; ++i){
+            if(max > candidate_total_votes[i])
+                candidate_loser[i]= true;
+            else if(max == candidate_total_votes[i])
+                tie = true;
+        }
+        if(!tie)
+            w << candidate_names[winner] << endl;
+        else{
+            for(int i = 0; i < ballot; ++i){
+                int c = candidate_ballot[i][0]-1;
+                if(candidate_loser[c]){
+                    int j = 1;
+                    c = candidate_ballot[i][j]-1;
+                    while(candidate_loser[c]){
+                        ++j;
+                        c = candidate_ballot[i][j]-1;
+                    }
+                    ++candidate_total_votes[c];
+                }
+            }
+                
+        }
+        for(int i =0; i < num_of_candidate; ++i){
+            if(max < candidate_total_votes[i])
+            {
+                max = candidate_total_votes[i];
+                winner = i;
+            }
+                
+        }
+        for(int i =0; i < num_of_candidate; ++i){
+            if(max > candidate_total_votes[i])
+                candidate_loser[i]= true;
+            else if(max == candidate_total_votes[i])
+                tie = true;
+        }
+        if(!tie)
+            w << candidate_names[winner] << endl;
+        else{
+            for(int i =0; i < num_of_candidate; ++i){
+                if(max == candidate_total_votes[i])
+                    w << candidate_names[i] << endl;
+            }
+        }
+        w << endl;
+    } 
+}
+
+int main () {
+    using namespace std;
+    voting_solve(cin, cout);
+    return 0;}

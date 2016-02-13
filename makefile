@@ -1,9 +1,9 @@
 FILES :=                              \
     .travis.yml                       \
-    voting-tests/EID-RunVoting.in   \
-    voting-tests/EID-RunVoting.out  \
-    voting-tests/EID-TestVoting.c++ \
-    voting-tests/EID-TestVoting.out \
+    voting-tests/ryw86-RunVoting.in   \
+    voting-tests/ryw86-RunVoting.out  \
+    voting-tests/ryw86-TestVoting.c++ \
+    voting-tests/ryw86-TestVoting.out \
     Voting.c++                       \
     Voting.h                         \
     Voting.log                       \

@@ -17,6 +17,16 @@
 
 using namespace std;
 
+// ----------------
+// voting_candidate
+// ----------------
+/**
+ * read one int
+ * @param s a string
+ * @return a int, representing the number of candidate in this test case
+ */
+int voting_candidate(const string& s);
+
 // ------------
 // collatz_read
 // ------------

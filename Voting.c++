@@ -74,7 +74,7 @@ void voting_solve (istream& r, ostream& w) {
     while (getline(r, s) && !r.eof()) {
         int num_of_candidate = voting_candidate(s);
         string name[20];
-        for (int i = 0; i < candidate; ++i)
+        for (int i = 0; i < num_of_candidate; ++i)
         {
             getline(r,s);
             /*function*/

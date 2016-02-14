@@ -13,6 +13,7 @@
 #include <sstream>  // istringstream
 #include <string>   // getline, string
 #include <utility>  // make_pair, pair
+#include <algorithm>
 
 // #include "Collatz.h"
 
@@ -20,6 +21,8 @@ using namespace std;
 
 //array<list<int>, 20> candidate_ballot;
 int candidate_ballot[1000][20];
+int candidate_total_votes[20];
+bool candidate_loser[20];
 
 // ----------------
 // voting_candidate
@@ -32,25 +35,81 @@ int voting_candidate(const string& s){
     return num_of_candidate;
 }
 
+// ---------------
+// voting_max_eval
+// ---------------
+
+int voting_max_eval(int num_of_candidate) {
+    int max = 0;
+    for(int i = 0; i < num_of_candidate; ++i) {
+        // printf("candidate_total_vote = %d\n", candidate_total_votes[i]);
+        if(max < candidate_total_votes[i])
+            max = candidate_total_votes[i];
+    }
+
+    return max;
+}
+
+// ---------------
+// voting_min_eval
+// ---------------
+
+void voting_min_eval(int num_of_candidate, int ballot) {
+    int min = 1000;
+    for(int i =0; i < num_of_candidate; ++i)
+        if(!candidate_loser[i] && min > candidate_total_votes[i])
+            min = candidate_total_votes[i];
+    //w << "138 min "<< min << endl; 
+    for(int i =0; i < num_of_candidate; ++i)
+        if(min == candidate_total_votes[i])
+            candidate_loser[i] = true;
+
+    for(int i = 0; i < ballot; ++i){
+        int c = candidate_ballot[i][0]-1;
+        if(candidate_loser[c] && min == candidate_total_votes[c]){
+            int j = 1;
+            c = candidate_ballot[i][j]-1;
+            while(candidate_loser[c]){
+                ++j;
+                c = candidate_ballot[i][j]-1;
+            }
+            ++candidate_total_votes[c];
+        }
+    }
+}
+
 // -------------------
 // voting_parse_ballot
 // -------------------
 
-void voting_parse_ballot(const string& s, int i){
+void voting_parse_ballot(const string& s, int i, int num_of_candidate){
 
     stringstream stream(s);
-
     int j = 0;
 
-    while(1){
+    while(num_of_candidate > 0){
         int n;
         stream >> n;
-        if(!stream)
-            break;
+
+        if(j == 0)
+            ++candidate_total_votes[n-1];
         candidate_ballot[i][j] = n;
+
         ++j;
+        --num_of_candidate;
     }
 }
+
+// void voting_candidate_name(int num_of_candidate, istream& r, ostream& w, string candidate_names[]) {
+
+//     string s;
+//     for (int i = 0; i < num_of_candidate; ++i) {
+//         getline(r,s);
+//         // w << s << endl;
+//         candidate_names[i] = s;
+
+//     }
+// }
 
 
 // ------------
@@ -96,73 +155,37 @@ void voting_solve (istream& r, ostream& w) {
     getline(r,s);
     while (getline(r, s) && !r.eof()) {
         int num_of_candidate = voting_candidate(s);
-        int candidate_total_votes[20]= {0};
+        fill(candidate_total_votes, candidate_total_votes+20, 0);
+        fill( &candidate_ballot[0][0], &candidate_ballot[0][0] + sizeof(candidate_ballot)/sizeof(candidate_ballot[0][0]), 0 );
+        fill(candidate_loser, candidate_loser+20, false);
         string candidate_names[20] = { "" };
-        bool candidate_loser[20] = { false };
-        candidate_ballot[1000][20] ={0};
-        int ballot;
-        for (int i = 0; i < num_of_candidate; ++i)
-        {
+
+        for (int i = 0; i < num_of_candidate; ++i) {
             getline(r,s);
-            /*function*/
             candidate_names[i] = s;
-           // w << candidate_names[i] << endl;
         }
+
         int i = 0;
         while(!s.empty() && !r.eof()){
             getline(r,s);
             if(!s.empty()) {
-                voting_parse_ballot(s, i);
+                voting_parse_ballot(s, i, num_of_candidate);
                 ++i;
             }    
         }
-        ballot = i;
-        for(int i = 0; i < ballot; ++i){
-            int first_vote = candidate_ballot[i][0]-1;
-            ++candidate_total_votes[first_vote];
-        }
-        int max = -1;
-        for(int i =0; i < num_of_candidate; ++i)
-            if(max < candidate_total_votes[i])
-                max = candidate_total_votes[i];
-       // w << "128 max "<< max << endl;        
+        int ballot = i;
+        int max = voting_max_eval(num_of_candidate);
         int cutoff = ballot/2;
-        //w << "13 cutoff "<< cutoff << endl; 
         int winner_vote = 0;
+        
         while(max <= cutoff && winner_vote<ballot){
-            int min = 1000;
             winner_vote = 0;
-            for(int i =0; i < num_of_candidate; ++i)
-                if(!candidate_loser[i] && min > candidate_total_votes[i])
-                    min = candidate_total_votes[i];
-            //w << "138 min "<< min << endl; 
-            for(int i =0; i < num_of_candidate; ++i)
-                if(min == candidate_total_votes[i])
-                    candidate_loser[i] = true;
-            for(int i = 0; i < ballot; ++i){
-                int c = candidate_ballot[i][0]-1;
-                if(candidate_loser[c] && min == candidate_total_votes[c]){
-                    int j = 1;
-                    c = candidate_ballot[i][j]-1;
-                    while(candidate_loser[c]){
-                        ++j;
-                        c = candidate_ballot[i][j]-1;
-                    }
-                    ++candidate_total_votes[c];
-                }
-            }
-            max = -1;
-            for(int i =0; i < num_of_candidate; ++i)
-                if(max < candidate_total_votes[i])
-                    max = candidate_total_votes[i];
-           // w << "158 max "<< max << endl;
+            voting_min_eval(num_of_candidate, ballot);
+            max = voting_max_eval(num_of_candidate);
             for(int i =0; i < num_of_candidate; ++i)
                 if(max == candidate_total_votes[i])
                     winner_vote+=max;
-            //w << "162 winner_vote "<< winner_vote << endl;
         }
-        // for(int i =0; i < num_of_candidate; ++i)
-        //    w << candidate_total_votes[i] << endl;
         for(int i =0; i < num_of_candidate; ++i){
             if(max == candidate_total_votes[i])
                 w << candidate_names[i] << endl;
@@ -170,6 +193,6 @@ void voting_solve (istream& r, ostream& w) {
         --size;
         if(size>0)
             w << endl;
+
     }
- 
 }

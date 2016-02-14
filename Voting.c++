@@ -82,7 +82,6 @@ int voting_max_eval(int num_of_candidate) {
 
 void voting_min_eval(int num_of_candidate) {
     int min = 1000;
-
     for(int i =0; i < num_of_candidate; ++i) {
         if(!candidate_list[i].is_loser && min > candidate_total_votes.at(i))
             min = candidate_total_votes.at(i);
@@ -92,23 +91,32 @@ void voting_min_eval(int num_of_candidate) {
     // int min = *val;
 
     for(int i =0; i < num_of_candidate; ++i) {
-        if(min == candidate_total_votes.at(i)) {
+        // if(min == candidate_list[i].current_vote)
+        //     candidate_list[i].is_loser = true;
+        if(min == candidate_total_votes.at(i))
             candidate_list[i].is_loser = true;
-            Candidate c = candidate_list[i];
+    }
+    // printf("min val: %d\n", min);
+    for(int i = 0; i < num_of_candidate; ++i){
+        Candidate c = candidate_list[i];
+        // printf("candidate vote: %d\n", candidate_total_votes.at(i));
+        // while(c.is_loser && min == c.current_vote && !c.c_ballot.empty()) {
+        while(c.is_loser && min == candidate_total_votes.at(i) && !c.c_ballot.empty()){
+            vector<int> next_ballot = c.c_ballot.front();
+            int next_vote = next_ballot.front();
 
-            while(c.is_loser && min == candidate_total_votes.at(i) && !c.c_ballot.empty()){
-                vector<int> next_ballot = c.c_ballot.front();
-                int next_vote = next_ballot.front();
-
+            // next_ballot.pop_front();
+            next_ballot.erase(next_ballot.begin());
+            while(candidate_list[next_vote-1].is_loser && !next_ballot.empty()) {
+                next_vote = next_ballot.front();
+                // next_ballot.pop_front();
                 next_ballot.erase(next_ballot.begin());
-                while(candidate_list[next_vote-1].is_loser && !next_ballot.empty()) {
-                    next_vote = next_ballot.front();
-                    next_ballot.erase(next_ballot.begin());
-                }
-                c.c_ballot.erase(c.c_ballot.begin());
-                candidate_total_votes[next_vote-1]++;
             }
-
+            // c.c_ballot.pop_front();
+            c.c_ballot.erase(c.c_ballot.begin());
+            // candidate_list[next_vote-1].current_vote+=1;
+            candidate_total_votes[next_vote-1]++;
+            // printf("next vote: %d\n", candidate_total_votes[next_vote-1]);
         }
     }
 }

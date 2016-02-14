@@ -12,31 +12,23 @@
 #include <iostream> // endl, istream, ostream
 #include <sstream>  // istringstream
 #include <string>   // getline, string
-// #include "Candidate.c++"
-// #include "Ballot.c++"
 #include <list>
 using namespace std;
-
-class Ballot {
-public:
-    list<int> ballot;
-    Ballot (list<int>);
-};
-
-Ballot::Ballot (list<int> temp_ballot) {
-    ballot = temp_ballot;
-}
 
 class Candidate {
 public:
     string c_name;
     bool is_loser;
-    // list<Ballot> c_ballot;
     int current_vote;
     list<list<int>> c_ballot;
     Candidate(string);
     Candidate();
-    // void set_bool(bool loser);
+    void reset() {
+        c_name = "";
+        is_loser = false;
+        current_vote = 0;
+        c_ballot.clear();
+    }
 };
 
 Candidate:: Candidate(string name) {
@@ -78,9 +70,6 @@ int voting_candidate(const string& s){
 int voting_max_eval(int num_of_candidate) {
     int max = 0;
     for(int i = 0; i < num_of_candidate; ++i) {
-        // printf("candidate_total_vote = %d\n", candidate_total_votes[i]);
-        // if(max < candidate_total_votes[i])
-        //     max = candidate_total_votes[i];
         if(max < candidate_list[i].current_vote)
             max = candidate_list[i].current_vote;
     }
@@ -93,62 +82,33 @@ int voting_max_eval(int num_of_candidate) {
 // ---------------
 
 void voting_min_eval(int num_of_candidate) {
-    // printf("in min eval.\n");
     int min = 1000;
     for(int i =0; i < num_of_candidate; ++i) {
         if(!candidate_list[i].is_loser && min > candidate_list[i].current_vote)
             min = candidate_list[i].current_vote;
-        // if(!candidate_loser[i] && min > candidate_total_votes[i])
-        //     min = candidate_total_votes[i];
     }
 
-
-    //w << "138 min "<< min << endl; 
     for(int i =0; i < num_of_candidate; ++i) {
         if(min == candidate_list[i].current_vote)
             candidate_list[i].is_loser = true;
-        // if(min == candidate_total_votes[i])
-        //     candidate_loser[i] = true;
     }
-    // printf("113 after loser\n");
     for(int i = 0; i < num_of_candidate; ++i){
         Candidate c = candidate_list[i];
-        // printf("116 for loop\n");
-        // int c = candidate_ballot[i][0]-1;
 
         while(c.is_loser && min == c.current_vote && !c.c_ballot.empty()) {
-            // printf("119:\n");
-
             list<int> next_ballot = c.c_ballot.front();
-
-
-            // printf("next_ballot 122.\n");
             int next_vote = next_ballot.front();
-            // printf("next_vote: %d\n", next_vote);
 
             next_ballot.pop_front();
-            // int next_vote = c.c_ballot.pop_front();
-            while(candidate_list[next_vote-1].is_loser) {
+            while(candidate_list[next_vote-1].is_loser && !next_ballot.empty()) {
                 next_vote = next_ballot.front();
-                // printf("while next_vote: %d\n", next_vote);
                 next_ballot.pop_front();
             }
-            // printf("while\n");
             c.c_ballot.pop_front();
             candidate_list[next_vote-1].current_vote+=1;
         }
-
-        // if(candidate_loser[c] && min == candidate_total_votes[c]){
-        //     int j = 1;
-        //     c = candidate_ballot[i][j]-1;
-        //     while(candidate_loser[c]){
-        //         ++j;
-        //         c = candidate_ballot[i][j]-1;
-        //     }
-        //     ++candidate_total_votes[c];
-        // }
     }
-    // printf("end min_eval\n");
+
 }
 
 // -------------------
@@ -179,49 +139,9 @@ void voting_parse_ballot(const string& s, int i, int num_of_candidate){
         --num_of_candidate;
     }
 
-    Ballot b(temp);
-    // printf("front: %d\t back: %d\n", temp.front(), temp.back());
     candidate_list[c].c_ballot.push_back(temp);
-    // printf("front= %d\tsize= %d\n", b.ballot.front(), b.ballot.size());
+
 }
-
-// void voting_candidate_name(int num_of_candidate, istream& r, ostream& w, string candidate_names[]) {
-
-//     string s;
-//     for (int i = 0; i < num_of_candidate; ++i) {
-//         getline(r,s);
-//         // w << s << endl;
-//         candidate_names[i] = s;
-
-//     }
-// }
-
-
-// ------------
-// collatz_read
-// ------------
-
-// pair<int, int> collatz_read (const string& s) {
-//     istringstream sin(s);
-//     int i;
-//     int j;
-//     sin >> i >> j;
-//     return make_pair(i, j);}
-
-// // ------------
-// // collatz_eval
-// // ------------
-
-// int collatz_eval (int i, int j) {
-//     // <your code>
-//     return 1;}
-
-// // -------------
-// // collatz_print
-// // -------------
-
-// void collatz_print (ostream& w, int i, int j, int v) {
-//     w << i << " " << j << " " << v << endl;}
 
 // -------------
 // voting_solve
@@ -242,22 +162,30 @@ void voting_solve (istream& r, ostream& w) {
         int num_of_candidate = 0;
         num_of_candidate = voting_candidate(s);
 
+        // w << "================before each cases:===================" << endl;
+        
+        // for(int i =0; i < num_of_candidate; ++i){    
+        //     w << candidate_list[i].c_name << endl;
+        //     w << candidate_list[i].c_ballot.size() << endl;
+        //     w << candidate_list[i].current_vote << endl;
+        //     w << candidate_list[i].is_loser << endl;
+        // }
+        // w << "================end each cases:=====================" << endl;
         // fill(candidate_total_votes, candidate_total_votes+20, 0);
         // fill( &candidate_ballot[0][0], &candidate_ballot[0][0] + sizeof(candidate_ballot)/sizeof(candidate_ballot[0][0]), 0 );
         // fill(candidate_loser, candidate_loser+20, false);
         // string candidate_names[20] = { "" };
-        for (int i = 0; i < num_of_candidate; ++i)
-            candidate_list[i] = Candidate();
-        // printf("got candidate\n");
-        // candidate_list[20]= {Candidate(), Candidate(), Candidate(), Candidate(), Candidate(), 
-        //                         Candidate(), Candidate(), Candidate(), Candidate(), Candidate(), 
-        //                         Candidate(), Candidate(), Candidate(), Candidate(), Candidate(), 
-        //                         Candidate(), Candidate(), Candidate(), Candidate(), Candidate() };
+
+        // for (int i = 0; i < num_of_candidate; ++i) {
+        //     candidate_list[i] = Candidate();
+        //     // candidate_list[i].reset()
+        // }
+
         for (int i = 0; i < num_of_candidate; ++i) {
             getline(r,s);
             // candidate_names[i] = s;
-            Candidate c(s);
-            candidate_list[i] = c;
+            // Candidate c(s);
+            candidate_list[i].c_name = s;
         }
 
         int i = 0;
@@ -268,18 +196,11 @@ void voting_solve (istream& r, ostream& w) {
                 ++i;
             }    
         }
-        // printf("got ballots 255\n");
-        // for (int i = 0; i < num_of_candidate; ++i) {
-        //     // list<int> temp = candidate_list[0].c_ballot.front();
-        //     // printf("front: %d\n", temp.front());
-        //     printf("total votes: %d\n", candidate_list[i].current_vote);
-        // }
 
         int ballot = i;
         int max = voting_max_eval(num_of_candidate);
         int cutoff = ballot/2;
         int winner_vote = 0;
-        // printf("266.\n");
         for(int i =0; i < num_of_candidate; ++i) {
             if(max == candidate_list[i].current_vote)
                 winner_vote += max;
@@ -287,30 +208,28 @@ void voting_solve (istream& r, ostream& w) {
         while(max <= cutoff && winner_vote<ballot){
             winner_vote = 0;
             voting_min_eval(num_of_candidate);
-            // printf("min eval: 270.\n");
             max = voting_max_eval(num_of_candidate);
-            // printf("voting_max 272.\n");
             for(int i =0; i < num_of_candidate; ++i) {
                 if(max == candidate_list[i].current_vote)
                     winner_vote += max;
-            
-                // if(max == candidate_total_votes[i])
-                //     winner_vote+=max;
             }
-            // printf("280.\n");
         }
-        // printf("end while.\n");
+
         for(int i =0; i < num_of_candidate; ++i){
-            if(max == candidate_list[i].current_vote)
+            if(max == candidate_list[i].current_vote) {
                 w << candidate_list[i].c_name << endl;
-            // if(max == candidate_total_votes[i])
-            //     w << candidate_names[i] << endl;
+            }
+            // while (!candidate_list[i].c_ballot.empty()) {
+            //     while(!candidate_list[i].c_ballot.front().empty()) {
+            //         candidate_list[i].c_ballot.front().clear();
+            //     }
+            //     candidate_list[i].c_ballot.clear();
+            // }
+            candidate_list[i].reset();
         }
         --size;
         if(size>0)
             w << endl;
 
     }
-
-
 }

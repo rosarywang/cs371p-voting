@@ -12,38 +12,24 @@
 #include <iostream> // endl, istream, ostream
 #include <sstream>  // istringstream
 #include <string>   // getline, string
-#include <list>
-#include <vector>
-#include <algorithm>
+#include <vector>   // vector
+#include <algorithm>// max_element, min_element
+
+#include "Voting.h"
+
 using namespace std;
-
-class Candidate {
-public:
-    string c_name;
-    bool is_loser;
-    int current_vote;
-    vector<vector<int>> c_ballot;
-    Candidate(string);
-    Candidate();
-    void reset() {
-        c_name = "";
-        is_loser = false;
-        current_vote = 0;
-        c_ballot.clear();
-    }
-};
-
-Candidate:: Candidate(string name) {
-    c_name = name;
-    is_loser = false;
-    current_vote = 0;
-}
 
 Candidate:: Candidate() {
     is_loser = false;
     current_vote = 0;
 }
 
+void Candidate:: reset() {
+    c_name = "";
+    is_loser = false;
+    current_vote = 0;
+    c_ballot.clear();
+}
 
 Candidate candidate_list[20] =   {Candidate(), Candidate(), Candidate(), Candidate(), Candidate(), 
                                 Candidate(), Candidate(), Candidate(), Candidate(), Candidate(), 
@@ -62,19 +48,19 @@ int voting_candidate(const string& s){
     return num_of_candidate;
 }
 
-// ---------------
-// voting_max_eval
-// ---------------
+// // ---------------
+// // voting_max_eval
+// // ---------------
 
-int voting_max_eval(int num_of_candidate) {
-    int max = 0;
-    for(int i = 0; i < num_of_candidate; ++i) {
-        if(max < candidate_list[i].current_vote)
-            max = candidate_list[i].current_vote;
-    }
+// int voting_max_eval(int num_of_candidate) {
+//     int max = 0;
+//     for(int i = 0; i < num_of_candidate; ++i) {
+//         if(max < candidate_list[i].current_vote)
+//             max = candidate_list[i].current_vote;
+//     }
 
-    return max;
-}
+//     return max;
+// }
 
 // ---------------
 // voting_min_eval
@@ -150,9 +136,9 @@ void voting_parse_ballot(const string& s, int i, int num_of_candidate){
 
 }
 
-// -------------
+// ------------
 // voting_solve
-// -------------
+// ------------
 
 void voting_solve (istream& r, ostream& w) {
     string s;

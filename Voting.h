@@ -13,13 +13,37 @@
 
 #include <iostream> // istream, ostream
 #include <string>   // string
-#include <utility>  // pair
+#include <vector>   // vector
 
 using namespace std;
+
+// ---------
+// Candidate
+// ---------
+
+/**
+ * Constructors: Candidate()
+ * Function: reset()
+ * Attributes:
+ *	string c_name
+ *	bool is_loser
+ *	int current_vote
+ *	vector<vector<int>> c_ballt
+ */
+class Candidate {
+public:
+    string c_name;
+    bool is_loser;
+    int current_vote;
+    vector<vector<int>> c_ballot;
+    Candidate();
+    void reset();
+};
 
 // ----------------
 // voting_candidate
 // ----------------
+
 /**
  * read one int
  * @param s a string
@@ -27,44 +51,31 @@ using namespace std;
  */
 int voting_candidate(const string& s);
 
-// ------------
-// collatz_read
-// ------------
+// ---------------
+// voting_min_eval
+// ---------------
 
 /**
- * read two ints
- * @param s a string
- * @return a pair of ints, representing the beginning and end of a range, [i, j]
+ * find min value in the list
+ * determine the loser using min value
+ * reassign loser's vote to remaining winner
+ * @param num_of_candidate as int
  */
-//pair<int, int> collatz_read (const string& s);
+void voting_min_eval(int num_of_candidate);
 
-// ------------
-// collatz_eval
-// ------------
+// -------------------
+// voting_parse_ballot
+// -------------------
 
 /**
- * @param i the beginning of the range, inclusive
- * @param j the end       of the range, inclusive
- * @return the max cycle length of the range [i, j]
+ * parse through all the ballot and assign votes to canidate
+ * @param s as string, i as int, num_of_candidate as int
  */
-//int collatz_eval (int i, int j);
+void voting_parse_ballot(const string& s, int i, int num_of_candidate);
 
-// -------------
-// collatz_print
-// -------------
-
-/**
- * print three ints
- * @param w an ostream
- * @param i the beginning of the range, inclusive
- * @param j the end       of the range, inclusive
- * @param v the max cycle length
- */
-//void collatz_print (ostream& w, int i, int j, int v);
-
-// -------------
-// collatz_solve
-// -------------
+// ------------
+// voting_solve
+// ------------
 
 /**
  * @param r an istream

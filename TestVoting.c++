@@ -5,7 +5,6 @@
 #include <iostream> // cout, endl
 #include <sstream>  // istringtstream, ostringstream
 #include <string>   // string
-#include <utility>  // pair
 
 #include "gtest/gtest.h"
 
@@ -13,58 +12,77 @@
 
 using namespace std;
 
-// -----------
+// ----------
 // TestVoting
-// -----------
+// ----------
 
-// ----
-// read
-// ----
+// ---------
+// candidate
+// ---------
 
-// TEST(VotingFixture, read) {
-//     string s("1 10\n");
-//     const pair<int, int> p = voting_read(s);
-//     ASSERT_EQ( 1, p.first);
-//     ASSERT_EQ(10, p.second);}
+TEST(VotingFixture, candidate_1) {
+    string s("1\n");
+    const int p = voting_candidate(s);
+    ASSERT_EQ(1, p);
+}
 
-// ----
-// eval
-// ----
+TEST(VotingFixture, candidate_2) {
+    string s("10\n");
+    const int p = voting_candidate(s);
+    ASSERT_EQ(10, p);
+}
+
+TEST(VotingFixture, candidate_3) {
+    string s("20\n");
+    const int p = voting_candidate(s);
+    ASSERT_EQ(20, p);
+}
+
+// --------
+// min_eval
+// --------
 
 // TEST(VotingFixture, eval_1) {
-//     const int v = voting_eval(1, 10);
+// 	Candidate candidate_list[3] = { Candidate(), Candidate(), Candidate()};
+// 	candidate_list[0].is
+//     const int v = voting_min_eval(1, 10);
 //     ASSERT_EQ(1, v);}
 
 // TEST(VotingFixture, eval_2) {
-//     const int v = voting_eval(100, 200);
+//     const int v = voting_min_eval(100, 200);
 //     ASSERT_EQ(1, v);}
 
 // TEST(VotingFixture, eval_3) {
-//     const int v = voting_eval(201, 210);
+//     const int v = voting_min_eval(201, 210);
 //     ASSERT_EQ(1, v);}
 
-// TEST(VotingFixture, eval_4) {
-//     const int v = voting_eval(900, 1000);
-//     ASSERT_EQ(1, v);}
+// ------------
+// parse_ballot
+// ------------
 
-// -----
-// print
-// -----
 
-// TEST(VotingFixture, print) {
-//     ostringstream w;
-//     voting_print(w, 1, 10, 20);
-//     ASSERT_EQ("1 10 20\n", w.str());}
 
 // -----
 // solve
 // -----
 
-// TEST(VotingFixture, solve) {
-//     istringstream r("1\n\n3\nJohn Doe\nJane Smith\nSirhan Sirhan\n1 2 3\n2 1 3\n2 3 1\n1 2 3\n3 1 2");
-//     ostringstream w;
-//     voting_solve(r, w);
-//     ASSERT_EQ("John Doe", w.str());}
+TEST(VotingFixture, solve_1) {
+    istringstream r("2\n\n3\nJohn Doe\nJane Smith\nSirhan Sirhan\n1 2 3\n2 1 3\n2 3 1\n1 2 3\n3 1 2\n\n2\nA\nB\n1 2\n2 1");
+    ostringstream w;
+    voting_solve(r, w);
+    ASSERT_EQ("John Doe\n\nA\nB\n", w.str());}
+
+TEST(VotingFixture, solve_2) {
+    istringstream r("1\n\n3\nJohn Doe\nJane Smith\nSirhan Sirhan\n1 2 3\n2 1 3\n2 3 1\n1 2 3\n3 1 2");
+    ostringstream w;
+    voting_solve(r, w);
+    ASSERT_EQ("John Doe\n", w.str());}
+
+TEST(VotingFixture, solve_3) {
+    istringstream r("1\n\n3\nA\n1\n1\n1\n1\n1");
+    ostringstream w;
+    voting_solve(r, w);
+    ASSERT_EQ("A\n", w.str());}
 
 /*
 % g++ -fprofile-arcs -ftest-coverage -pedantic -std=c++11 -Wall Voting.c++ TestVoting.c++ -o TestVoting -lgtest -lgtest_main -lpthread

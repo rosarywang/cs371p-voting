@@ -120,15 +120,13 @@ void voting_solve (istream& r, ostream& w) {
                 is_winner = true;
             } else {
                 for (int i = 0; i < num_of_candidate; ++i)
-                    if (count[i] == current_min)
+                    if (current_min == count[i])
                         losers_list[i] = true;
             }
         }
-
         for (int i = 0; i < num_of_candidate; ++i)
-            if (count[i] == winner && !losers_list[i])            
+            if (!losers_list[i] && winner == count[i])            
                 cout << names[i] << endl;
-
 
         if(r.eof())
             break;

@@ -88,7 +88,6 @@ void voting_solve (istream& r, ostream& w) {
         }
 
         vector<int> index_ballot(total_ballots, 0);
-        
         int winner = -1;
         bool is_winner = false;
         while (!is_winner) {
@@ -124,11 +123,9 @@ void voting_solve (istream& r, ostream& w) {
                         losers_list[i] = true;
             }
         }
-
         for (int i = 0; i < num_of_candidate; ++i)
-            if (count[i] == winner && !losers_list[i])            
+            if (!losers_list[i] && winner == count[i])            
                 cout << names[i] << endl;
-
 
         if(r.eof())
             break;

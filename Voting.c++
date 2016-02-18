@@ -34,6 +34,10 @@ int voting_candidate(const string& s){
     return num_of_candidate;
 }
 
+// -------------------
+// voting_parse_ballot
+// -------------------
+
 vector<int> voting_parse_ballot(string& s, int num_of_candidate){
     stringstream s_ballot;
     s_ballot << s;
@@ -60,9 +64,7 @@ void voting_solve (istream& r, ostream& w) {
 
     while (size--) {
         getline(r,s);
-        // istringstream sin2(s);
         int num_of_candidate = voting_candidate(s);
-        // sin2 >> num_of_candidate;
 
         vector<string> names(num_of_candidate);
         vector<bool> losers_list(num_of_candidate, false);
@@ -72,10 +74,13 @@ void voting_solve (istream& r, ostream& w) {
             names[i] = s;
         }
 
-        vector<vector<int> > votings;
+        vector<vector<int>> votings;
+        vector<int> count(num_of_candidate, 0);
         int total_ballots = 0;
         while(getline(r, s) && s != "") {
             vector<int> ballot = voting_parse_ballot(s, num_of_candidate);
+            int candidate = ballot.front();
+            ++count[candidate];
             votings.push_back(ballot);
             
             if (r.eof())
@@ -83,15 +88,7 @@ void voting_solve (istream& r, ostream& w) {
             ++total_ballots;
         }
 
-        vector<int> count(num_of_candidate, 0);
         vector<int> index_ballot(total_ballots, 0);
-        
-        // the first columns
-        for (int i = 0; i < total_ballots; ++i) {
-            int candidate = votings[i][0];
-            ++count[candidate];
-        }
-        
         int winner = -1;
         bool is_winner = false;
         while (!is_winner) {
@@ -100,7 +97,6 @@ void voting_solve (istream& r, ostream& w) {
 
             // loop through the whole ballots to find loser
             for (int i = 0; i < total_ballots; ++i) {
-
                 // if the next vote in the ballot is still loser, keep incrementing
                 while (losers_list[votings[i][index_ballot[i]]] == true) {
                     ++index_ballot[i];
@@ -128,7 +124,7 @@ void voting_solve (istream& r, ostream& w) {
                         losers_list[i] = true;
             }
         }
-        
+
         for (int i = 0; i < num_of_candidate; ++i)
             if (count[i] == winner && !losers_list[i])            
                 cout << names[i] << endl;

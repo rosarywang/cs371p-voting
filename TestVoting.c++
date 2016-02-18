@@ -42,25 +42,89 @@ TEST(VotingFixture, candidate_3) {
 // min_eval
 // --------
 
-// TEST(VotingFixture, eval_1) {
-// 	Candidate candidate_list[3] = { Candidate(), Candidate(), Candidate()};
-// 	candidate_list[0].is
-//     const int v = voting_min_eval(1, 10);
-//     ASSERT_EQ(1, v);}
+TEST(VotingFixture, eval_1) {
+	candidate_list[0] = Candidate();
+    candidate_list[1] = Candidate();
+    candidate_list[2] = Candidate();
+	vector<int> v1 {2, 3};
+    vector<int> v2 {1, 3};
+    vector<int> v3 {2, 1};
+    vector<int> v4 {2, 1};
+    vector<int> v5 {1, 2};
+    candidate_list[0].c_ballot = {v1};
+    candidate_list[1].c_ballot = {v2, v3};
+    candidate_list[2].c_ballot = {v4, v5};
+    candidate_total_votes = {1, 2, 2};
+    const vector<int> result = {1, 3, 2};
+    voting_min_eval(3);
+    ASSERT_EQ(result, candidate_total_votes);
 
-// TEST(VotingFixture, eval_2) {
-//     const int v = voting_min_eval(100, 200);
-//     ASSERT_EQ(1, v);}
+}
 
-// TEST(VotingFixture, eval_3) {
-//     const int v = voting_min_eval(201, 210);
-//     ASSERT_EQ(1, v);}
+TEST(VotingFixture, eval_2) {
+    candidate_list[0] = Candidate();
+    candidate_list[1] = Candidate();
+    candidate_list[2] = Candidate();
+    vector<int> v1 {1, 3};
+    vector<int> v2 {1, 3};
+    vector<int> v3 {2, 1};
+    vector<int> v4 {3, 2};
+    vector<int> v5 {1, 3};
+    candidate_list[0].c_ballot = {v4};
+    candidate_list[1].c_ballot = {v1, v2, v5};
+    candidate_list[2].c_ballot = {v3};
+    candidate_total_votes = {1, 3, 1};
+    const vector<int> result = {1, 5, 1};
+    voting_min_eval(3);
+    ASSERT_EQ(result, candidate_total_votes);
+}
+
+TEST(VotingFixture, eval_3) {
+    candidate_list[0] = Candidate();
+    candidate_list[1] = Candidate();
+    candidate_list[2] = Candidate();
+    vector<int> v1 {1, 3};
+    vector<int> v2 {1, 3};
+    vector<int> v3 {3, 1};
+    vector<int> v4 {2, 3};
+    vector<int> v5 {1, 2};
+    vector<int> v6 {1, 2};
+    candidate_list[0].c_ballot = {v4};
+    candidate_list[1].c_ballot = {v1, v2, v3};
+    candidate_list[2].c_ballot = {v5, v6};
+    candidate_total_votes = {1, 3, 2};
+    vector<int> result = {1, 4, 2};
+    voting_min_eval(3);
+    ASSERT_EQ(result, candidate_total_votes);
+}
 
 // ------------
 // parse_ballot
 // ------------
 
+TEST(VotingFixture, parse_1) {
+    candidate_total_votes = {1, 2, 2, 3, 3};
+    const vector<int> result = {1, 2, 2, 4, 3};
+    string s("4 5 3 2 1\n");
+    voting_parse_ballot(s, 5);
+    ASSERT_EQ(result, candidate_total_votes);
+}
 
+TEST(VotingFixture, parse_2) {
+    candidate_total_votes = {1, 2, 2};
+    const vector<int> result = {2, 2, 2};
+    string s("1 2 3\n");
+    voting_parse_ballot(s, 3);
+    ASSERT_EQ(result, candidate_total_votes);
+}
+
+TEST(VotingFixture, parse_3) {
+    candidate_total_votes = {0};
+    const vector<int> result = {1};
+    string s("1\n");
+    voting_parse_ballot(s, 1);
+    ASSERT_EQ(result, candidate_total_votes);
+}
 
 // -----
 // solve
@@ -68,21 +132,27 @@ TEST(VotingFixture, candidate_3) {
 
 TEST(VotingFixture, solve_1) {
     istringstream r("2\n\n3\nJohn Doe\nJane Smith\nSirhan Sirhan\n1 2 3\n2 1 3\n2 3 1\n1 2 3\n3 1 2\n\n2\nA\nB\n1 2\n2 1");
+    candidate_list[0].reset();
+    candidate_list[1].reset();
+    candidate_list[2].reset();
     ostringstream w;
     voting_solve(r, w);
-    ASSERT_EQ("John Doe\n\nA\nB\n", w.str());}
+    ASSERT_EQ("John Doe\n\nA\nB\n", w.str());
+}
 
 TEST(VotingFixture, solve_2) {
     istringstream r("1\n\n3\nJohn Doe\nJane Smith\nSirhan Sirhan\n1 2 3\n2 1 3\n2 3 1\n1 2 3\n3 1 2");
     ostringstream w;
     voting_solve(r, w);
-    ASSERT_EQ("John Doe\n", w.str());}
+    ASSERT_EQ("John Doe\n", w.str());
+}
 
 TEST(VotingFixture, solve_3) {
     istringstream r("1\n\n3\nA\n1\n1\n1\n1\n1");
     ostringstream w;
     voting_solve(r, w);
-    ASSERT_EQ("A\n", w.str());}
+    ASSERT_EQ("A\n", w.str());
+}
 
 /*
 % g++ -fprofile-arcs -ftest-coverage -pedantic -std=c++11 -Wall Voting.c++ TestVoting.c++ -o TestVoting -lgtest -lgtest_main -lpthread

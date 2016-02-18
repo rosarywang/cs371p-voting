@@ -76,7 +76,6 @@ void voting_min_eval(int num_of_candidate) {
 
     // auto val = min_element(begin(candidate_total_votes), end(candidate_total_votes));
     // int min = *val;
-
     for(int i =0; i < num_of_candidate; ++i) {
         // if(min == candidate_list[i].current_vote)
         //     candidate_list[i].is_loser = true;
@@ -112,7 +111,7 @@ void voting_min_eval(int num_of_candidate) {
 // voting_parse_ballot
 // -------------------
 
-void voting_parse_ballot(const string& s, int i, int num_of_candidate){
+void voting_parse_ballot(const string& s, int num_of_candidate){
 
     stringstream stream(s);
     int j = 0;
@@ -166,7 +165,7 @@ void voting_solve (istream& r, ostream& w) {
         while(!s.empty() && !r.eof()){
             getline(r,s);
             if(!s.empty()) {
-                voting_parse_ballot(s, i, num_of_candidate);
+                voting_parse_ballot(s, num_of_candidate);
                 ++i;
             }    
         }

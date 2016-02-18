@@ -40,6 +40,18 @@ public:
     void reset();
 };
 
+// --------------
+// candidate_list
+// --------------
+
+extern Candidate candidate_list[];
+
+// ---------------------
+// candidate_total_votes
+// ---------------------
+
+extern vector<int> candidate_total_votes;
+
 // ----------------
 // voting_candidate
 // ----------------

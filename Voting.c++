@@ -31,10 +31,11 @@ void Candidate:: reset() {
     c_ballot.clear();
 }
 
-Candidate candidate_list[20] =   {Candidate(), Candidate(), Candidate(), Candidate(), Candidate(), 
-                                Candidate(), Candidate(), Candidate(), Candidate(), Candidate(), 
-                                Candidate(), Candidate(), Candidate(), Candidate(), Candidate(), 
-                                Candidate(), Candidate(), Candidate(), Candidate(), Candidate()};
+Candidate candidate_list[] = {Candidate(), Candidate(), Candidate(), Candidate(), Candidate(), 
+                              Candidate(), Candidate(), Candidate(), Candidate(), Candidate(), 
+                              Candidate(), Candidate(), Candidate(), Candidate(), Candidate(), 
+                              Candidate(), Candidate(), Candidate(), Candidate(), Candidate()};
+
 vector<int> candidate_total_votes;
 
 // ----------------

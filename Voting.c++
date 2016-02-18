@@ -15,27 +15,18 @@
 #include <vector>   // vector
 #include <algorithm>// max_element, min_element
 #include <list>
+#include <utility>   // make_pair, pair
 #include "Voting.h"
 
 using namespace std;
 
 Candidate:: Candidate() {
-    is_loser = false;
-    current_vote = 0;
 }
 
-void Candidate:: reset() {
-    c_name = "";
-    is_loser = false;
-    current_vote = 0;
-    c_ballot.clear();
+Candidate:: Candidate(string name) {
+    c_name = name;
 }
-Candidate candidate_list[] = {Candidate(), Candidate(), Candidate(), Candidate(), Candidate(), 
-                              Candidate(), Candidate(), Candidate(), Candidate(), Candidate(), 
-                              Candidate(), Candidate(), Candidate(), Candidate(), Candidate(), 
-                              Candidate(), Candidate(), Candidate(), Candidate(), Candidate()};
 
-vector<int> candidate_total_votes;
 
 // ----------------
 // voting_candidate
@@ -43,102 +34,79 @@ vector<int> candidate_total_votes;
 
 int voting_candidate(const string& s){
     int num_of_candidate;
-    istringstream sin(s);
-    sin >> num_of_candidate;
+    istringstream sin1(s);
+    sin1 >> num_of_candidate;
     return num_of_candidate;
 }
 
-// // ---------------
-// // voting_max_eval
-// // ---------------
-
-// int voting_max_eval(int num_of_candidate) {
-//     int max = 0;
-//     for(int i = 0; i < num_of_candidate; ++i) {
-//         if(max < candidate_list[i].current_vote)
-//             max = candidate_list[i].current_vote;
-//     }
-
-//     return max;
-// }
-
-// ---------------
-// voting_min_eval
-// ---------------
-
-void voting_min_eval(int num_of_candidate) {
-    int min = 1000;
-    for(int i =0; i < num_of_candidate; ++i) {
-        if(!candidate_list[i].is_loser && min > candidate_total_votes.at(i))
-            min = candidate_total_votes.at(i);
-    }
-
-    // auto val = min_element(begin(candidate_total_votes), end(candidate_total_votes));
-    // int min = *val;
+void voting_min_eval(int num_of_candidate, vector<pair<int,int>> &candidate_total_votes, Candidate (&candidate_list)[20]) {
 
     list<int> min_candidate;
-
-    for(int i =0; i < num_of_candidate; ++i) {
-        if(min == candidate_total_votes.at(i)){
-            candidate_list[i].is_loser = true;
-            min_candidate.push_back(i);
-        }
+    auto index = candidate_total_votes.end()-1;
+    int min = (*index).second;
+    while(index >= candidate_total_votes.begin() && min == (*index).second){
+        int i = (*index).first;
+        candidate_total_votes.erase(index);
+        min_candidate.push_back(i);
+        --index;
     }
-    // printf("min val: %d\n", min);
-    // for(int i = 0; i < num_of_candidate; ++i){
     while(!min_candidate.empty()) {
         
         int i = min_candidate.front();
         min_candidate.pop_front();
         Candidate c = candidate_list[i];
 
-        while(c.is_loser && min == candidate_total_votes.at(i) && !c.c_ballot.empty()){
-            vector<int> next_ballot = c.c_ballot.front();
+        while(!c.c_ballot.empty()){
+            list<int> next_ballot = c.c_ballot.back();
             int next_vote = next_ballot.front();
 
-            // next_ballot.pop_front();
-            next_ballot.erase(next_ballot.begin());
-            while(candidate_list[next_vote-1].is_loser && !next_ballot.empty()) {
+            next_ballot.pop_front();
+            auto it = find_if( candidate_total_votes.begin(), candidate_total_votes.end(), [next_vote](const pair<int, int>& element){ return element.first == (next_vote-1);} );
+            while(it==candidate_total_votes.end() && !next_ballot.empty()) {
                 next_vote = next_ballot.front();
-                // next_ballot.pop_front();
-                next_ballot.erase(next_ballot.begin());
+                next_ballot.pop_front();
+                it = find_if( candidate_total_votes.begin(), candidate_total_votes.end(), [next_vote](const pair<int, int>& element){ return element.first == (next_vote-1);} );
             }
-            // c.c_ballot.pop_front();
-            c.c_ballot.erase(c.c_ballot.begin());
-            // candidate_list[next_vote-1].current_vote+=1;
-            candidate_total_votes[next_vote-1]++;
-            // printf("next vote: %d\n", candidate_total_votes[next_vote-1]);
+            if(it!=candidate_total_votes.end())
+                (*it).second+=1;
+            c.c_ballot.pop_back();
+            
         }
-    
     }
 }
+
+list<int> string_split(string &s, char delimiter){
+    size_t start=0;
+    size_t end=s.find_first_of(delimiter);
+    list<int> output;
+    while (end <= string::npos){
+        output.emplace_back(atoi(s.substr(start, end-start).c_str()));
+        if (end == string::npos)
+            break;
+        start=end+1;
+        end = s.find_first_of(delimiter, start);
+    }
+    return output;
+}
+
 
 // -------------------
 // voting_parse_ballot
 // -------------------
 
-void voting_parse_ballot(const string& s, int i, int num_of_candidate){
+void voting_parse_ballot(string& s, int num_of_candidate, vector<pair<int,int>> &candidate_total_votes, Candidate (&candidate_list)[20]){
 
-    stringstream stream(s);
-    int j = 0;
-    int c = 0;
-    vector<int> temp;
-    while(num_of_candidate > 0){
-        int n;
-        stream >> n;
-        
-        if(j == 0) {
-            c = n-1;
-            ++candidate_total_votes[n-1];
-        } 
-        else 
-            temp.push_back(n);
-
-        ++j;
-        --num_of_candidate;
-    }
-
+    int c;
+    list<int> temp = string_split(s, ' ');
+    c = temp.front()-1;
+    temp.pop_front();
+    auto it = find_if( candidate_total_votes.begin(), candidate_total_votes.end(), [c](const pair<int, int>& element){ return element.first == c;} );
+    if(it!=candidate_total_votes.end())
+        (*it).second+=1;
+    else
+        candidate_total_votes.push_back(make_pair(c, 1));
     candidate_list[c].c_ballot.push_back(temp);
+
 
 }
 
@@ -148,65 +116,85 @@ void voting_parse_ballot(const string& s, int i, int num_of_candidate){
 
 void voting_solve (istream& r, ostream& w) {
     string s;
-    //voting_sample_size
-    //read the first line, where the number of samples in the test
     int size;
     getline(r, s);
     istringstream sin1(s);
     sin1 >> size;
-    
-    //get the number of candidate in each sample
     getline(r,s);
     while (getline(r, s) && !r.eof()) {
         int num_of_candidate = 0;
         num_of_candidate = voting_candidate(s);
-        candidate_total_votes.assign(20, 0);
+        vector<pair<int,int>> candidate_total_votes;
+        Candidate candidate_list[20];
 
         for (int i = 0; i < num_of_candidate; ++i) {
             getline(r,s);
-            candidate_list[i].c_name = s;
+            candidate_list[i]= Candidate(s);
         }
 
         int i = 0;
         while(!s.empty() && !r.eof()){
             getline(r,s);
             if(!s.empty()) {
-                voting_parse_ballot(s, i, num_of_candidate);
+                voting_parse_ballot(s, num_of_candidate, candidate_total_votes, candidate_list);
                 ++i;
             }    
         }
+        // for(auto i = candidate_total_votes.begin(); i != candidate_total_votes.end(); ++i){
+        //     w << (*i).first << " " << (*i).second << endl;
+        // }
         int ballot = i;
-        auto val = max_element(begin(candidate_total_votes), end(candidate_total_votes));
-        int max = *val;
-        int cutoff = ballot/2;
+        
+        
+        // auto val = max_element(begin(candidate_total_votes), end(candidate_total_votes));
+        // int max = *val;
+        
         int winner_vote = 0;
+        auto cmp = [](pair<int,int> const & a, pair<int,int> const & b) 
+        { 
+            return a.second != b.second?  a.second > b.second : a.first < b.first;
+        };
+        sort(candidate_total_votes.begin(), candidate_total_votes.end(), cmp);
+        
+        auto index1 = candidate_total_votes.begin();
+        int max = (*index1).second;
 
-        // to find tie
-        for(int i =0; i < num_of_candidate; ++i) {
-            if (max == candidate_total_votes.at(i))
-                winner_vote += max;
-        }
+        auto index2 = candidate_total_votes.end()-1;
+        int min = (*index2).second;
 
-        while(max <= cutoff && winner_vote < ballot) {
+        // for(auto i = candidate_total_votes.begin(); i != candidate_total_votes.end(); ++i){
+        //     w << (*i).first << " " << (*i).second << endl;
+        // }
+        // w << "\n" <<endl;
+
+        while(max != min && winner_vote < ballot) {
             // printf("entering 211\n");
             winner_vote = 0;
-            voting_min_eval(num_of_candidate);
-            val = max_element(begin(candidate_total_votes), end(candidate_total_votes));
-            max = *val;
-            for(int i =0; i < num_of_candidate; ++i) {
-                if (max == candidate_total_votes.at(i))
-                    winner_vote += max;
-            }
+            voting_min_eval(num_of_candidate, candidate_total_votes, candidate_list);
+            sort(candidate_total_votes.begin(), candidate_total_votes.end(), cmp);
+            // for(auto i = candidate_total_votes.begin(); i != candidate_total_votes.end(); ++i){
+            //     w << (*i).first << " " << (*i).second << "\n"<< endl;
+            // }
+            //  w << "\n" <<endl;
+            index1 = candidate_total_votes.begin();
+            max = (*index1).second;
+            index2 = candidate_total_votes.end()-1;
+            min = (*index2).second;
         }
-
-        for(int i =0; i < num_of_candidate; ++i){
-            if(max == candidate_total_votes.at(i))
-                w << candidate_list[i].c_name << endl;
-            candidate_list[i].reset();
+        // for(auto i = candidate_total_votes.begin(); i != candidate_total_votes.end(); ++i){
+        //     w << (*i).first << " " << (*i).second << endl;
+        // }
+        //  w << "\n" <<endl;
+        sort(candidate_total_votes.begin(), candidate_total_votes.end(), cmp);
+        auto index = candidate_total_votes.begin();
+        max = (*index).second;
+        while(index != candidate_total_votes.end() && (*index).second == max){
+            w << candidate_list[(*index).first].c_name << "\n" << endl;
+            ++index;
         }
+        //candidate_total_votes.clear();
         --size;
         if(size>0)
-            w << endl;
-
+           w << endl;
     }
 }

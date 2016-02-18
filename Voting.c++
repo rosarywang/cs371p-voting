@@ -14,7 +14,7 @@
 #include <string>   // getline, string
 #include <vector>   // vector
 #include <algorithm>// max_element, min_element
-
+#include <list>
 #include "Voting.h"
 
 using namespace std;
@@ -30,7 +30,6 @@ void Candidate:: reset() {
     current_vote = 0;
     c_ballot.clear();
 }
-
 Candidate candidate_list[] = {Candidate(), Candidate(), Candidate(), Candidate(), Candidate(), 
                               Candidate(), Candidate(), Candidate(), Candidate(), Candidate(), 
                               Candidate(), Candidate(), Candidate(), Candidate(), Candidate(), 
@@ -76,17 +75,23 @@ void voting_min_eval(int num_of_candidate) {
 
     // auto val = min_element(begin(candidate_total_votes), end(candidate_total_votes));
     // int min = *val;
+
+    list<int> min_candidate;
+
     for(int i =0; i < num_of_candidate; ++i) {
-        // if(min == candidate_list[i].current_vote)
-        //     candidate_list[i].is_loser = true;
-        if(min == candidate_total_votes.at(i))
+        if(min == candidate_total_votes.at(i)){
             candidate_list[i].is_loser = true;
+            min_candidate.push_back(i);
+        }
     }
     // printf("min val: %d\n", min);
-    for(int i = 0; i < num_of_candidate; ++i){
+    // for(int i = 0; i < num_of_candidate; ++i){
+    while(!min_candidate.empty()) {
+        
+        int i = min_candidate.front();
+        min_candidate.pop_front();
         Candidate c = candidate_list[i];
-        // printf("candidate vote: %d\n", candidate_total_votes.at(i));
-        // while(c.is_loser && min == c.current_vote && !c.c_ballot.empty()) {
+
         while(c.is_loser && min == candidate_total_votes.at(i) && !c.c_ballot.empty()){
             vector<int> next_ballot = c.c_ballot.front();
             int next_vote = next_ballot.front();
@@ -104,6 +109,7 @@ void voting_min_eval(int num_of_candidate) {
             candidate_total_votes[next_vote-1]++;
             // printf("next vote: %d\n", candidate_total_votes[next_vote-1]);
         }
+    
     }
 }
 
@@ -111,7 +117,7 @@ void voting_min_eval(int num_of_candidate) {
 // voting_parse_ballot
 // -------------------
 
-void voting_parse_ballot(const string& s, int num_of_candidate){
+void voting_parse_ballot(const string& s, int i, int num_of_candidate){
 
     stringstream stream(s);
     int j = 0;
@@ -165,7 +171,7 @@ void voting_solve (istream& r, ostream& w) {
         while(!s.empty() && !r.eof()){
             getline(r,s);
             if(!s.empty()) {
-                voting_parse_ballot(s, num_of_candidate);
+                voting_parse_ballot(s, i, num_of_candidate);
                 ++i;
             }    
         }
@@ -175,12 +181,13 @@ void voting_solve (istream& r, ostream& w) {
         int cutoff = ballot/2;
         int winner_vote = 0;
 
+        // to find tie
         for(int i =0; i < num_of_candidate; ++i) {
             if (max == candidate_total_votes.at(i))
                 winner_vote += max;
         }
 
-        while(max <= cutoff && winner_vote<ballot){
+        while(max <= cutoff && winner_vote < ballot) {
             // printf("entering 211\n");
             winner_vote = 0;
             voting_min_eval(num_of_candidate);
@@ -193,9 +200,8 @@ void voting_solve (istream& r, ostream& w) {
         }
 
         for(int i =0; i < num_of_candidate; ++i){
-            if(max == candidate_total_votes.at(i)) {
+            if(max == candidate_total_votes.at(i))
                 w << candidate_list[i].c_name << endl;
-            }
             candidate_list[i].reset();
         }
         --size;

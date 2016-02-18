@@ -45,10 +45,11 @@ Candidate:: Candidate() {
 }
 
 
-Candidate candidate_list[20] =   {Candidate(), Candidate(), Candidate(), Candidate(), Candidate(), 
-                                Candidate(), Candidate(), Candidate(), Candidate(), Candidate(), 
-                                Candidate(), Candidate(), Candidate(), Candidate(), Candidate(), 
-                                Candidate(), Candidate(), Candidate(), Candidate(), Candidate()};
+Candidate candidate_list[] = {Candidate(), Candidate(), Candidate(), Candidate(), Candidate(), 
+                              Candidate(), Candidate(), Candidate(), Candidate(), Candidate(), 
+                              Candidate(), Candidate(), Candidate(), Candidate(), Candidate(), 
+                              Candidate(), Candidate(), Candidate(), Candidate(), Candidate()};
+
 vector<int> candidate_total_votes;
 
 // ----------------
@@ -62,19 +63,19 @@ int voting_candidate(const string& s){
     return num_of_candidate;
 }
 
-// ---------------
-// voting_max_eval
-// ---------------
+// // ---------------
+// // voting_max_eval
+// // ---------------
 
-int voting_max_eval(int num_of_candidate) {
-    int max = 0;
-    for(int i = 0; i < num_of_candidate; ++i) {
-        if(max < candidate_list[i].current_vote)
-            max = candidate_list[i].current_vote;
-    }
+// int voting_max_eval(int num_of_candidate) {
+//     int max = 0;
+//     for(int i = 0; i < num_of_candidate; ++i) {
+//         if(max < candidate_list[i].current_vote)
+//             max = candidate_list[i].current_vote;
+//     }
 
-    return max;
-}
+//     return max;
+// }
 
 // ---------------
 // voting_min_eval
@@ -90,17 +91,22 @@ void voting_min_eval(int num_of_candidate) {
     // auto val = min_element(begin(candidate_total_votes), end(candidate_total_votes));
     // int min = *val;
 
+    list<int> min_candidate;
+
     for(int i =0; i < num_of_candidate; ++i) {
-        // if(min == candidate_list[i].current_vote)
-        //     candidate_list[i].is_loser = true;
-        if(min == candidate_total_votes.at(i))
+        if(min == candidate_total_votes.at(i)){
             candidate_list[i].is_loser = true;
+            min_candidate.push_back(i);
+        }
     }
     // printf("min val: %d\n", min);
-    for(int i = 0; i < num_of_candidate; ++i){
+    // for(int i = 0; i < num_of_candidate; ++i){
+    while(!min_candidate.empty()) {
+        
+        int i = min_candidate.front();
+        min_candidate.pop_front();
         Candidate c = candidate_list[i];
-        // printf("candidate vote: %d\n", candidate_total_votes.at(i));
-        // while(c.is_loser && min == c.current_vote && !c.c_ballot.empty()) {
+
         while(c.is_loser && min == candidate_total_votes.at(i) && !c.c_ballot.empty()){
             vector<int> next_ballot = c.c_ballot.front();
             int next_vote = next_ballot.front();
@@ -118,6 +124,7 @@ void voting_min_eval(int num_of_candidate) {
             candidate_total_votes[next_vote-1]++;
             // printf("next vote: %d\n", candidate_total_votes[next_vote-1]);
         }
+    
     }
 }
 
@@ -150,9 +157,9 @@ void voting_parse_ballot(const string& s, int i, int num_of_candidate){
 
 }
 
-// -------------
+// ------------
 // voting_solve
-// -------------
+// ------------
 
 void voting_solve (istream& r, ostream& w) {
     string s;

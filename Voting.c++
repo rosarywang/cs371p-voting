@@ -14,12 +14,10 @@
 #include <string>   // getline, string
 #include <vector>   // vector
 #include <algorithm>// max_element, min_element
-#include <list>
 #include <utility>   // make_pair, pair
 #include "Voting.h"
 #include <ctime>
 #include <iostream>
-
 
 using namespace std;
 
@@ -50,6 +48,7 @@ vector<int> voting_parse_ballot(string& s, int num_of_candidate){
     return ballot;
     
 }
+
 // ------------
 // voting_solve
 // ------------
@@ -76,6 +75,7 @@ void voting_solve (istream& r, ostream& w) {
 
         vector<vector<int>> votings;
         vector<int> count(num_of_candidate, 0);
+
         int total_ballots = 0;
         while(getline(r, s) && s != "") {
             vector<int> ballot = voting_parse_ballot(s, num_of_candidate);
@@ -88,13 +88,21 @@ void voting_solve (istream& r, ostream& w) {
             ++total_ballots;
         }
 
+
         vector<int> index_ballot(total_ballots, 0);
         int winner = -1;
         bool is_winner = false;
+        int max_ele = *max_element(count.begin(), count.end());
+
+        if (max_ele > total_ballots/2) {
+            is_winner = true;
+            winner = max_ele;
+        }
+
         while (!is_winner) {
             int current_max = 0;
             int current_min = 1000;
-
+            
             // loop through the whole ballots to find loser
             for (int i = 0; i < total_ballots; ++i) {
                 // if the next vote in the ballot is still loser, keep incrementing
@@ -103,8 +111,7 @@ void voting_solve (istream& r, ostream& w) {
                     ++count[votings[i][index_ballot[i]]];
                 }
             }
-            
-            // computing the min and max for non-loser
+
             for (int i = 0; i < num_of_candidate; ++i) {
                 if (!losers_list[i]) {
                     current_max = max(count[i], current_max);
@@ -124,13 +131,13 @@ void voting_solve (istream& r, ostream& w) {
                         losers_list[i] = true;
             }
         }
+
         for (int i = 0; i < num_of_candidate; ++i)
             if (!losers_list[i] && winner == count[i])            
                 cout << names[i] << endl;
 
         if(r.eof())
             break;
-
         w << endl;
     }
 }

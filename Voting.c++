@@ -14,9 +14,7 @@
 #include <string>   // getline, string
 #include <vector>   // vector
 #include <algorithm>// max_element, min_element
-#include <utility>   // make_pair, pair
 #include "Voting.h"
-#include <ctime>
 
 using namespace std;
 
@@ -24,10 +22,11 @@ using namespace std;
 // voting_candidate
 // ----------------
 
-int voting_candidate(const string& s){
+int voting_candidate(const string& s) {
     int num_of_candidate;
     istringstream sin1(s);
     sin1 >> num_of_candidate;
+    assert(num_of_candidate > 0 && num_of_candidate < 21);
     return num_of_candidate;
 }
 
@@ -35,17 +34,15 @@ int voting_candidate(const string& s){
 // voting_parse_ballot
 // -------------------
 
-vector<int> voting_parse_ballot(string& s, int num_of_candidate){
+vector<int> voting_parse_ballot(string& s, int num_of_candidate) {
     stringstream s_ballot;
     s_ballot << s;
     vector<int> ballot(num_of_candidate);
-    for (int i = 0; i < num_of_candidate; ++i)
-    {
+    for (int i = 0; i < num_of_candidate; ++i) {
         s_ballot >> ballot[i];
         ballot[i] = ballot[i]-1;
     }
     return ballot;
-    
 }
 
 // ------------
@@ -63,6 +60,7 @@ void voting_solve (istream& r, ostream& w) {
     while (size--) {
         getline(r,s);
         int num_of_candidate = voting_candidate(s);
+        assert(num_of_candidate > 0 && num_of_candidate < 21);
 
         vector<string> names(num_of_candidate);
         vector<bool> losers_list(num_of_candidate, false);
@@ -87,21 +85,24 @@ void voting_solve (istream& r, ostream& w) {
             ++total_ballots;
         }
 
+        assert(total_ballots < 1001);
 
         vector<int> index_ballot(total_ballots, 0);
         int winner = -1;
         bool is_winner = false;
-        int max_ele = *max_element(count.begin(), count.end());
 
-        if (max_ele > total_ballots/2) {
+        int current_max = *max_element(count.begin(), count.end());
+        int current_min = 1000;
+
+        if (current_max > total_ballots/2) {
             is_winner = true;
-            winner = max_ele;
+            winner = current_max;
         }
 
         while (!is_winner) {
-            int current_max = 0;
-            int current_min = 1000;
-            
+            current_max = 0;
+            current_min = 1000;
+
             // loop through the whole ballots to find loser
             for (int i = 0; i < total_ballots; ++i) {
                 // if the next vote in the ballot is still loser, keep incrementing
@@ -130,9 +131,10 @@ void voting_solve (istream& r, ostream& w) {
                         losers_list[i] = true;
             }
         }
+        assert((current_max == current_min) || (current_max > (total_ballots/2)));
 
         for (int i = 0; i < num_of_candidate; ++i)
-            if (!losers_list[i] && winner == count[i])            
+            if (!losers_list[i] && winner == count[i])          
                 w << names[i]  << endl;
 
         if(r.eof())

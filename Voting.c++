@@ -17,7 +17,6 @@
 #include <utility>   // make_pair, pair
 #include "Voting.h"
 #include <ctime>
-#include <iostream>
 
 using namespace std;
 
@@ -134,7 +133,7 @@ void voting_solve (istream& r, ostream& w) {
 
         for (int i = 0; i < num_of_candidate; ++i)
             if (!losers_list[i] && winner == count[i])            
-                cout << names[i] << endl;
+                w << names[i]  << endl;
 
         if(r.eof())
             break;

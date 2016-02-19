@@ -1,0 +1,74 @@
+\hypertarget{UVaVoting_8c_09_09}{\section{U\-Va\-Voting.\-c++ File Reference}
+\label{UVaVoting_8c_09_09}\index{U\-Va\-Voting.\-c++@{U\-Va\-Voting.\-c++}}
+}
+{\ttfamily \#include $<$cassert$>$}\\*
+{\ttfamily \#include $<$iostream$>$}\\*
+{\ttfamily \#include $<$sstream$>$}\\*
+{\ttfamily \#include $<$string$>$}\\*
+{\ttfamily \#include $<$vector$>$}\\*
+{\ttfamily \#include $<$algorithm$>$}\\*
+{\ttfamily \#include \char`\"{}Voting.\-h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{UVaVoting_8c_09_09_ad514f6616c181c70aedb499941f2f1c1}{voting\-\_\-candidate} (const string \&s)
+\item 
+vector$<$ int $>$ \hyperlink{UVaVoting_8c_09_09_a3c01d376b869575ba567bf7b31cd3448}{voting\-\_\-parse\-\_\-ballot} (string \&s, int num\-\_\-of\-\_\-candidate)
+\item 
+void \hyperlink{UVaVoting_8c_09_09_aed21eca169108fbf5b77db1e7e21af2e}{voting\-\_\-solve} (istream \&r, ostream \&w)
+\item 
+int \hyperlink{UVaVoting_8c_09_09_ae66f6b31b5ad750f1fe042a706a4e3d4}{main} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{UVaVoting_8c_09_09_ae66f6b31b5ad750f1fe042a706a4e3d4}{\index{U\-Va\-Voting.\-c++@{U\-Va\-Voting.\-c++}!main@{main}}
+\index{main@{main}!UVaVoting.c++@{U\-Va\-Voting.\-c++}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{UVaVoting_8c_09_09_ae66f6b31b5ad750f1fe042a706a4e3d4}
+\hypertarget{UVaVoting_8c_09_09_ad514f6616c181c70aedb499941f2f1c1}{\index{U\-Va\-Voting.\-c++@{U\-Va\-Voting.\-c++}!voting\-\_\-candidate@{voting\-\_\-candidate}}
+\index{voting\-\_\-candidate@{voting\-\_\-candidate}!UVaVoting.c++@{U\-Va\-Voting.\-c++}}
+\subsubsection[{voting\-\_\-candidate}]{\setlength{\rightskip}{0pt plus 5cm}int voting\-\_\-candidate (
+\begin{DoxyParamCaption}
+\item[{const string \&}]{s}
+\end{DoxyParamCaption}
+)}}\label{UVaVoting_8c_09_09_ad514f6616c181c70aedb499941f2f1c1}
+read one int 
+\begin{DoxyParams}{Parameters}
+{\em s} & a string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a int, representing the number of candidate in this test case 
+\end{DoxyReturn}
+\hypertarget{UVaVoting_8c_09_09_a3c01d376b869575ba567bf7b31cd3448}{\index{U\-Va\-Voting.\-c++@{U\-Va\-Voting.\-c++}!voting\-\_\-parse\-\_\-ballot@{voting\-\_\-parse\-\_\-ballot}}
+\index{voting\-\_\-parse\-\_\-ballot@{voting\-\_\-parse\-\_\-ballot}!UVaVoting.c++@{U\-Va\-Voting.\-c++}}
+\subsubsection[{voting\-\_\-parse\-\_\-ballot}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$int$>$ voting\-\_\-parse\-\_\-ballot (
+\begin{DoxyParamCaption}
+\item[{string \&}]{s, }
+\item[{int}]{num\-\_\-of\-\_\-candidate}
+\end{DoxyParamCaption}
+)}}\label{UVaVoting_8c_09_09_a3c01d376b869575ba567bf7b31cd3448}
+parse through all the ballot and assign votes to canidate 
+\begin{DoxyParams}{Parameters}
+{\em s} & as string, i as int, num\-\_\-of\-\_\-candidate as int  a vetor$<$int$>$, containing each line of the ballot \\
+\hline
+\end{DoxyParams}
+\hypertarget{UVaVoting_8c_09_09_aed21eca169108fbf5b77db1e7e21af2e}{\index{U\-Va\-Voting.\-c++@{U\-Va\-Voting.\-c++}!voting\-\_\-solve@{voting\-\_\-solve}}
+\index{voting\-\_\-solve@{voting\-\_\-solve}!UVaVoting.c++@{U\-Va\-Voting.\-c++}}
+\subsubsection[{voting\-\_\-solve}]{\setlength{\rightskip}{0pt plus 5cm}void voting\-\_\-solve (
+\begin{DoxyParamCaption}
+\item[{istream \&}]{r, }
+\item[{ostream \&}]{w}
+\end{DoxyParamCaption}
+)}}\label{UVaVoting_8c_09_09_aed21eca169108fbf5b77db1e7e21af2e}
+
+\begin{DoxyParams}{Parameters}
+{\em r} & an istream \\
+\hline
+{\em w} & an ostream \\
+\hline
+\end{DoxyParams}

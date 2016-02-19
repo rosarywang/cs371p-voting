@@ -1,0 +1,65 @@
+\hypertarget{Voting_8c_09_09}{\section{Voting.\-c++ File Reference}
+\label{Voting_8c_09_09}\index{Voting.\-c++@{Voting.\-c++}}
+}
+{\ttfamily \#include $<$cassert$>$}\\*
+{\ttfamily \#include $<$iostream$>$}\\*
+{\ttfamily \#include $<$sstream$>$}\\*
+{\ttfamily \#include $<$string$>$}\\*
+{\ttfamily \#include $<$vector$>$}\\*
+{\ttfamily \#include $<$algorithm$>$}\\*
+{\ttfamily \#include \char`\"{}Voting.\-h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{Voting_8c_09_09_ad514f6616c181c70aedb499941f2f1c1}{voting\-\_\-candidate} (const string \&s)
+\item 
+vector$<$ int $>$ \hyperlink{Voting_8c_09_09_a3c01d376b869575ba567bf7b31cd3448}{voting\-\_\-parse\-\_\-ballot} (string \&s, int num\-\_\-of\-\_\-candidate)
+\item 
+void \hyperlink{Voting_8c_09_09_aed21eca169108fbf5b77db1e7e21af2e}{voting\-\_\-solve} (istream \&r, ostream \&w)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{Voting_8c_09_09_ad514f6616c181c70aedb499941f2f1c1}{\index{Voting.\-c++@{Voting.\-c++}!voting\-\_\-candidate@{voting\-\_\-candidate}}
+\index{voting\-\_\-candidate@{voting\-\_\-candidate}!Voting.c++@{Voting.\-c++}}
+\subsubsection[{voting\-\_\-candidate}]{\setlength{\rightskip}{0pt plus 5cm}int voting\-\_\-candidate (
+\begin{DoxyParamCaption}
+\item[{const string \&}]{s}
+\end{DoxyParamCaption}
+)}}\label{Voting_8c_09_09_ad514f6616c181c70aedb499941f2f1c1}
+read one int 
+\begin{DoxyParams}{Parameters}
+{\em s} & a string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a int, representing the number of candidate in this test case 
+\end{DoxyReturn}
+\hypertarget{Voting_8c_09_09_a3c01d376b869575ba567bf7b31cd3448}{\index{Voting.\-c++@{Voting.\-c++}!voting\-\_\-parse\-\_\-ballot@{voting\-\_\-parse\-\_\-ballot}}
+\index{voting\-\_\-parse\-\_\-ballot@{voting\-\_\-parse\-\_\-ballot}!Voting.c++@{Voting.\-c++}}
+\subsubsection[{voting\-\_\-parse\-\_\-ballot}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$int$>$ voting\-\_\-parse\-\_\-ballot (
+\begin{DoxyParamCaption}
+\item[{string \&}]{s, }
+\item[{int}]{num\-\_\-of\-\_\-candidate}
+\end{DoxyParamCaption}
+)}}\label{Voting_8c_09_09_a3c01d376b869575ba567bf7b31cd3448}
+parse through all the ballot and assign votes to canidate 
+\begin{DoxyParams}{Parameters}
+{\em s} & as string, i as int, num\-\_\-of\-\_\-candidate as int  a vetor$<$int$>$, containing each line of the ballot \\
+\hline
+\end{DoxyParams}
+\hypertarget{Voting_8c_09_09_aed21eca169108fbf5b77db1e7e21af2e}{\index{Voting.\-c++@{Voting.\-c++}!voting\-\_\-solve@{voting\-\_\-solve}}
+\index{voting\-\_\-solve@{voting\-\_\-solve}!Voting.c++@{Voting.\-c++}}
+\subsubsection[{voting\-\_\-solve}]{\setlength{\rightskip}{0pt plus 5cm}void voting\-\_\-solve (
+\begin{DoxyParamCaption}
+\item[{istream \&}]{r, }
+\item[{ostream \&}]{w}
+\end{DoxyParamCaption}
+)}}\label{Voting_8c_09_09_aed21eca169108fbf5b77db1e7e21af2e}
+
+\begin{DoxyParams}{Parameters}
+{\em r} & an istream \\
+\hline
+{\em w} & an ostream \\
+\hline
+\end{DoxyParams}

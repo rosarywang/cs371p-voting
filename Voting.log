@@ -1,3 +1,149 @@
+commit e8771052c59d238427efcea5557be2a2970d6fdf
+Author: tumrod <tipparat.umrod@utexas.edu>
+Date:   Thu Feb 18 20:49:57 2016 -0600
+
+    update RunVoting.out
+
+commit d7c6b7f5a60c41f76b6a7824958219ba027c82d6
+Author: tumrod <tipparat.umrod@utexas.edu>
+Date:   Thu Feb 18 20:48:49 2016 -0600
+
+    updated in and out files
+
+commit af0b3fe5490f7ec52b263c35def688d044a6590e
+Merge: be09892 97be89f
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Thu Feb 18 20:45:44 2016 -0600
+
+    resolve merge conflict
+
+commit be09892547e82246eec7f31a0f55396f9d192b55
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Thu Feb 18 20:43:48 2016 -0600
+
+    unit test update, header update
+
+commit 97be89fa72b4f0de27a8646ef6292ef59ddb7b4f
+Author: tumrod <tipparat.umrod@utexas.edu>
+Date:   Thu Feb 18 20:35:27 2016 -0600
+
+    added assert()
+
+commit 34f2e1d2af0d255d7bdd2cadde382e0370d62b8f
+Author: tumrod <tipparat.umrod@utexas.edu>
+Date:   Thu Feb 18 20:04:26 2016 -0600
+
+    Optimized by returning the winner right away, bypassing while loop, closed #8
+
+commit e5c29ced81192e3f90ee4d72f85ad8aa0bdf6ba7
+Author: tumrod <tipparat.umrod@utexas.edu>
+Date:   Thu Feb 18 16:19:19 2016 -0600
+
+    slightly better optimization
+
+commit c23e185c3634892d3baee99ecfc988e59357c1fb
+Author: tumrod <tipparat.umrod@utexas.edu>
+Date:   Thu Feb 18 15:45:30 2016 -0600
+
+    slightly optimized by collecting the first column count
+
+commit 2606c762e634cdebf87a548c8cac83d344cf44a8
+Author: tumrod <tipparat.umrod@utexas.edu>
+Date:   Thu Feb 18 15:26:57 2016 -0600
+
+    passed UVagit add .!
+
+commit 93a65dfb82bf95acfe83487f9c0f236ee9f39b64
+Merge: ea13362 acde1c2
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Thu Feb 18 07:12:58 2016 -0600
+
+    resolve merge conflict
+
+commit ea13362dc7c0de11dae5637b58b0997547f073b1
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Thu Feb 18 07:07:34 2016 -0600
+
+    optimization but has a bug
+
+commit acde1c22966775c2c12cff7ba57de66656c5bd26
+Author: tumrod <tipparat.umrod@utexas.edu>
+Date:   Thu Feb 18 03:02:28 2016 -0600
+
+    clean up and optimizing Voting a little bit 2/18 3AM
+
+commit d490c820ac72fa1b73760a83a1f3fe3f066ad62a
+Author: tumrod <tipparat.umrod@utexas.edu>
+Date:   Wed Feb 17 22:09:15 2016 -0600
+
+    current optimization 2/17
+
+commit 1483e0733d2075b93c0e8b63c0e53f149b903cf0
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Wed Feb 17 22:07:34 2016 -0600
+
+    test cases added, this closes #1, this closes #5, this closes #6, this closes #7
+
+commit 8fd59b024bb929923d7c73b33d67b336b2cb7c6a
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Wed Feb 17 20:34:03 2016 -0600
+
+    update global varaiable on h file
+
+commit d724f06db16d5ea6609f647018bea91f4a9d5a19
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Wed Feb 17 16:27:28 2016 -0600
+
+    update unit tests and header file, closes #1
+
+commit 4f291b15cec04800cde122be4cb9e65613eb6dd3
+Author: tumrod <tipparat.umrod@utexas.edu>
+Date:   Sun Feb 14 17:01:54 2016 -0600
+
+    fix wrong answer bug
+
+commit 3d851f20fd22230c6b97e813acd79f2d8470f73e
+Author: tumrod <tipparat.umrod@utexas.edu>
+Date:   Sun Feb 14 16:57:41 2016 -0600
+
+    end of pair programming 2/14 fixed run-time error and optimizing a little bit
+
+commit 6c5c8e0aa743689a99f14727aeef9ed3c9dc3a29
+Author: tumrod <tipparat.umrod@utexas.edu>
+Date:   Sun Feb 14 14:57:55 2016 -0600
+
+    attempting to pass UVa but either runtime error or exceeding time limit
+
+commit 9dd9cfe6ffeb1b0631bb7515bd151d363cd09af0
+Author: tumrod <tipparat.umrod@utexas.edu>
+Date:   Sun Feb 14 02:14:29 2016 -0600
+
+    optimization, prevent looping through ballot multiple times, created Candidate class
+
+commit 3a17b6d4bc07a0f3385aa860cd09234fe6337fe3
+Author: tumrod <tipparat.umrod@utexas.edu>
+Date:   Sat Feb 13 23:15:08 2016 -0600
+
+    update travis CI commands closed #16
+
+commit e5ecf52295bc8bcf0ae48dd4c8e6f6927ff8080a
+Author: tumrod <tipparat.umrod@utexas.edu>
+Date:   Sat Feb 13 23:06:34 2016 -0600
+
+    fixing UVaVoting
+
+commit 96e3bfb33c8610874d10b257b77e067b98b5f022
+Author: tumrod <tipparat.umrod@utexas.edu>
+Date:   Sat Feb 13 23:05:40 2016 -0600
+
+    reorganize codes into functions closed #14, closed #15
+
+commit 3499c49faff4637f4dde920462a6e6ebb6e7ffff
+Author: rosarywang <wangr@mccombs.utexas.edu>
+Date:   Sat Feb 13 01:35:15 2016 -0600
+
+    add the missing files
+
 commit 0d6dda3a35adc590bfac4d1be73cad0ce910f205
 Author: rosarywang <wangr@mccombs.utexas.edu>
 Date:   Sat Feb 13 01:33:30 2016 -0600

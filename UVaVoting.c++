@@ -14,7 +14,6 @@
 #include <string>   // getline, string
 #include <vector>   // vector
 #include <algorithm>// max_element, min_element
-#include "Voting.h"
 
 using namespace std;
 
